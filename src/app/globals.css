@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0f2345;
+  --color-navy-deep: #0a1830;
+  --color-gold: #d4af37;
+  --color-gold-light: #e8c766;
+  --color-cream: #faf8f4;
+  --color-ink: #1b2233;
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-gold-light);
+  color: var(--color-navy);
+}
+
+@utility container-lux {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10;
+}
+@utility eyebrow {
+  @apply text-[11px] font-semibold tracking-[0.32em] text-gold uppercase;
+}
+@utility heading-lux {
+  @apply font-display font-medium tracking-tight;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-semibold tracking-[0.2em] uppercase transition duration-300 disabled:cursor-not-allowed disabled:opacity-50;
+}
+@utility btn-gold {
+  @apply btn bg-gold text-navy hover:bg-gold-light;
+}
+@utility btn-navy {
+  @apply btn bg-navy text-cream hover:bg-navy-deep;
+}
+@utility btn-outline {
+  @apply btn border border-current hover:bg-navy hover:text-cream;
+}
+@utility btn-whatsapp {
+  @apply btn bg-[#1f9d55] text-white hover:bg-[#178048];
+}
+@utility input {
+  @apply w-full border border-navy/15 bg-white px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:border-gold focus:ring-1 focus:ring-gold;
+}
+@utility label {
+  @apply mb-1.5 block text-[11px] font-semibold tracking-[0.18em] text-navy/70 uppercase;
+}
+@utility card {
+  @apply border border-navy/10 bg-white;
+}
+@utility gold-text {
+  background: linear-gradient(100deg, #b8912a 0%, #e8c766 35%, #d4af37 55%, #f3dc8f 75%, #b8912a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
