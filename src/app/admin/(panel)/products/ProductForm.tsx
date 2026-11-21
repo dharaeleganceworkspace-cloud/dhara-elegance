@@ -120,10 +120,10 @@ export function ProductForm({ product, variants = [], categories }: { product?: 
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <fieldset className="space-y-4 bg-white p-5 shadow-sm sm:p-6">
-      <legend className="float-left mb-2 w-full text-xs font-bold tracking-[0.2em] text-navy uppercase">{title}</legend>
+    <section className="space-y-4 bg-white p-5 shadow-sm sm:p-6">
+      <h2 className="text-xs font-bold tracking-[0.2em] text-navy uppercase">{title}</h2>
       {children}
-    </fieldset>
+    </section>
   );
 }
 
