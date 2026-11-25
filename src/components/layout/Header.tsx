@@ -23,6 +23,19 @@ export function Header({ logo, categories }: { logo: React.ReactNode; categories
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock page scroll while the mobile menu is open and close it with Escape.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
   const men = categories.filter((c) => c.gender === "men");
   const women = categories.filter((c) => c.gender === "women");
 
@@ -35,6 +48,7 @@ export function Header({ logo, categories }: { logo: React.ReactNode; categories
   };
 
   return (
+    <>
     <header className={`sticky top-0 z-40 transition-all duration-500 ${scrolled ? "bg-cream/90 shadow-[0_8px_30px_-20px_rgba(15,35,69,0.5)] backdrop-blur-md" : "bg-cream"}`}>
       <div className="container-lux flex h-16 items-center justify-between gap-4 sm:h-20">
         <button className="p-2 text-navy lg:hidden" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
@@ -89,12 +103,16 @@ export function Header({ logo, categories }: { logo: React.ReactNode; categories
         )}
       </AnimatePresence>
 
+    </header>
+
+      {/* Rendered outside <header>: the header's backdrop-blur would otherwise become the
+          containing block for these fixed elements and shrink the menu to header height. */}
       <AnimatePresence>
         {menuOpen && (
           <>
-            <motion.div className="fixed inset-0 z-50 bg-navy/50 lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMenuOpen(false)} />
+            <motion.div className="fixed inset-0 z-[60] bg-navy/50 lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMenuOpen(false)} />
             <motion.aside
-              className="fixed inset-y-0 left-0 z-50 flex w-[86%] max-w-sm flex-col overflow-y-auto bg-navy p-6 text-cream lg:hidden"
+              className="fixed top-0 bottom-0 left-0 z-[60] flex h-dvh w-[86%] max-w-sm flex-col overflow-y-auto overscroll-contain bg-navy p-6 text-cream lg:hidden"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -133,7 +151,7 @@ export function Header({ logo, categories }: { logo: React.ReactNode; categories
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
 
